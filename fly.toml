@@ -1,0 +1,42 @@
+# fly.toml app configuration file generated for permify-fly-deploy-example on 2024-08-12T02:11:18-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'permify-fly-deploy-example'
+primary_region = 'lax'
+
+[build]
+
+[experimental]
+  allowed_public_ports = [3476, 3478]
+  auto_rollback = true
+
+[[services]]
+  internal_port = 3476
+  protocol = 'tcp'
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 3476
+
+[[services]]
+  internal_port = 3478
+  protocol = 'tcp'
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 3478
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
